@@ -5,7 +5,7 @@ import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
 import org.springframework.context.ApplicationEventPublisher;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月30日 下午1:21:41
  * @version 1.0.0
  */

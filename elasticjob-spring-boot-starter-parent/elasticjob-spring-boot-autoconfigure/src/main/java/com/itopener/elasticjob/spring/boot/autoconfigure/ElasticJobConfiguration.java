@@ -26,7 +26,7 @@ import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import com.itopener.elasticjob.spring.boot.autoconfigure.ElasticJobProperties.JobProps;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月14日 下午3:11:22
  * @version 1.0.0
  */
@@ -37,11 +37,11 @@ public class ElasticJobConfiguration {
 
 	@Autowired
 	private ElasticJobProperties elasticJobProperties;
-	
+
 	@Autowired
 	private ApplicationContext applicationContext;
-	
-	@Autowired(required = false) 
+
+	@Autowired(required = false)
 	private JobEventConfiguration jobEventRdbConfiguration;
 
 	@Bean(initMethod = "init")
@@ -78,7 +78,7 @@ public class ElasticJobConfiguration {
 		}
 		return new SimpleJobSchedulerFactory(JobSchedulerList);
     }
-	
+
 	@Bean
 	@ConditionalOnBean(DataflowJob.class)
 	public JobSchedulerFactory dataflowJobScheduler(ZookeeperRegistryCenter regCenter) {
@@ -101,11 +101,11 @@ public class ElasticJobConfiguration {
 		}
 		return new DataflowJobSchedulerFactory(JobSchedulerList);
 	}
-	
+
 	class JobSchedulerFactory {
-		
+
 		private List<JobScheduler> jobSchedulerList;
-		
+
 		public JobSchedulerFactory() {
 		}
 
@@ -120,26 +120,26 @@ public class ElasticJobConfiguration {
 		public void setJobSchedulerList(List<JobScheduler> jobSchedulerList) {
 			this.jobSchedulerList = jobSchedulerList;
 		}
-		
+
 	}
-	
+
 	class SimpleJobSchedulerFactory extends JobSchedulerFactory {
 		public SimpleJobSchedulerFactory(List<JobScheduler> jobSchedulerList) {
 			super(jobSchedulerList);
 		}
 	}
-	
+
 	class DataflowJobSchedulerFactory extends JobSchedulerFactory {
 		public DataflowJobSchedulerFactory(List<JobScheduler> jobSchedulerList) {
 			super(jobSchedulerList);
 		}
 	}
-	
+
 	private LiteJobConfiguration getLiteSimpleJobConfiguration(final Class<? extends SimpleJob> jobClass, final String cron, final int shardingTotalCount, final String shardingItemParameters) {
         return LiteJobConfiguration.newBuilder(new SimpleJobConfiguration(JobCoreConfiguration.newBuilder(
                 jobClass.getName(), cron, shardingTotalCount).shardingItemParameters(shardingItemParameters).build(), jobClass.getCanonicalName())).overwrite(false).build();
     }
-	
+
 	@SuppressWarnings("rawtypes")
 	private LiteJobConfiguration getLiteDataflowJobConfiguration(final Class<? extends DataflowJob> jobClass, final String cron, final int shardingTotalCount, final String shardingItemParameters) {
         return LiteJobConfiguration.newBuilder(new DataflowJobConfiguration(JobCoreConfiguration.newBuilder(

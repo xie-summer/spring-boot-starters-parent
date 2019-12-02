@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Primary;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
 @Configuration
 public class DruidDataSourceAutoConfiguration {
-	
+
 	@Primary
 	@Bean(initMethod="init", destroyMethod="close")
 	@ConditionalOnProperty("spring.datasource.url")

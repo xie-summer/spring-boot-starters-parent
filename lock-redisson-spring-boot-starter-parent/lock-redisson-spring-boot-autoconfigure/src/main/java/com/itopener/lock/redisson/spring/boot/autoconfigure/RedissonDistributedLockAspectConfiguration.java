@@ -24,7 +24,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import com.itopener.redisson.spring.boot.autoconfigure.RedissonAutoConfiguration;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月14日 下午3:11:22
  * @version 1.0.0
  */
@@ -33,9 +33,9 @@ import com.itopener.redisson.spring.boot.autoconfigure.RedissonAutoConfiguration
 @ConditionalOnBean(RedissonClient.class)
 @AutoConfigureAfter(RedissonAutoConfiguration.class)
 public class RedissonDistributedLockAspectConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(RedissonDistributedLockAspectConfiguration.class);
-	
+
 	@Autowired
 	private RedissonClient redissonClient;
 
@@ -45,9 +45,9 @@ public class RedissonDistributedLockAspectConfiguration {
 
 	@Pointcut("@annotation(com.itopener.lock.redisson.spring.boot.autoconfigure.LockAction)")
 	private void lockPoint(){
-		
+
 	}
-	
+
 	@Around("lockPoint()")
 	public Object around(ProceedingJoinPoint pjp) throws Throwable{
 		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
@@ -55,13 +55,13 @@ public class RedissonDistributedLockAspectConfiguration {
 		String key = lockAction.value();
 		Object[] args = pjp.getArgs();
 		key = parse(key, method, args);
-		
+
 		RLock lock = getLock(key, lockAction);
 		if(!lock.tryLock(lockAction.waitTime(), lockAction.leaseTime(), lockAction.unit())) {
 			logger.debug("get lock failed [{}]", key);
 			return null;
 		}
-		
+
 		//得到锁,执行方法，释放锁
 		logger.debug("get lock success [{}]", key);
 		try {
@@ -77,7 +77,7 @@ public class RedissonDistributedLockAspectConfiguration {
 
 	/**
 	 * @description 解析spring EL表达式
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年1月9日 上午10:41:01
 	 * @version 1.0.0
 	 * @param key 表达式
@@ -93,21 +93,21 @@ public class RedissonDistributedLockAspectConfiguration {
 		}
 		return parser.parseExpression(key).getValue(context, String.class);
 	}
-	
+
 	private RLock getLock(String key, LockAction lockAction) {
 		switch (lockAction.lockType()) {
 			case REENTRANT_LOCK:
 				return redissonClient.getLock(key);
-			
+
 			case FAIR_LOCK:
 				return redissonClient.getFairLock(key);
-				
+
 			case READ_LOCK:
 				return redissonClient.getReadWriteLock(key).readLock();
-			
+
 			case WRITE_LOCK:
 				return redissonClient.getReadWriteLock(key).writeLock();
-				
+
 			default:
 				throw new RuntimeException("do not support lock type:" + lockAction.lockType().name());
 			}

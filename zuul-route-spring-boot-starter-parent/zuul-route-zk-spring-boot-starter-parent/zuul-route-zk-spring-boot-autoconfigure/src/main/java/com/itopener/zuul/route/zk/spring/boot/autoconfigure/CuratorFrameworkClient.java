@@ -25,7 +25,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年7月1日 上午10:28:39
  * @version 1.0.0
  */
@@ -36,7 +36,7 @@ public class CuratorFrameworkClient {
 	private CuratorFramework curatorFramework;
 
 	private TreeCache treeCache;
-	
+
 	@Autowired
 	private ZuulRouteZookeeperProperties zuulZookeeperRouteProperties;
 
@@ -224,5 +224,5 @@ public class CuratorFrameworkClient {
 	public TreeCache getTreeCache() {
 		return treeCache;
 	}
-	
+
 }

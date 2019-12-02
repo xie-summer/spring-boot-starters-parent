@@ -9,20 +9,20 @@ import org.springframework.context.annotation.Configuration;
 
 import com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(TbScheduleProperties.class)
 public class TbScheduleAutoConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(TbScheduleAutoConfiguration.class);
-	
+
 	@Autowired
 	private TbScheduleProperties tbScheduleProperties;
-	
+
 	@Bean(initMethod="init")
 	public TBScheduleManagerFactory tbScheduleManagerFactory(){
 		TBScheduleManagerFactory tbScheduleManagerFactory = new TBScheduleManagerFactory();
@@ -30,5 +30,5 @@ public class TbScheduleAutoConfiguration {
 		logger.info("tbschedule manager factory init success.");
 		return tbScheduleManagerFactory;
 	}
-	
+
 }

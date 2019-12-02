@@ -18,8 +18,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
@@ -27,12 +27,12 @@ import com.alibaba.druid.support.http.WebStatFilter;
 @ConditionalOnClass(DruidDataSource.class)
 @EnableConfigurationProperties(DruidStatProperties.class)
 public class DruidStatAutoConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(DruidStatAutoConfiguration.class);
-	
+
 	@Autowired
 	private DruidStatProperties druidStatProperties;
-	
+
 	@Bean
 	public FilterRegistrationBean druidWebStatFilter(){
 		logger.info("add druid web stat filter");
@@ -47,14 +47,14 @@ public class DruidStatAutoConfiguration {
 		registrationBean.setFilter(webStatFilter);
         return registrationBean;
 	}
-	
+
 	@Bean
     public ServletRegistrationBean servletRegistrationBean() {
 		logger.info("add druid stat view servlet");
 		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
 		StatViewServlet statViewServlet = new StatViewServlet();
-		List<String> urlPatterns = new ArrayList<String>();  
-        urlPatterns.add(druidStatProperties.getUrl()); 
+		List<String> urlPatterns = new ArrayList<String>();
+        urlPatterns.add(druidStatProperties.getUrl());
 		servletRegistrationBean.setUrlMappings(urlPatterns);
 		// IP白名单
 		if(!StringUtils.isEmpty(druidStatProperties.getAllow())){

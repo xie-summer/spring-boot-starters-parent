@@ -1,7 +1,7 @@
 package com.itopener.redisson.spring.boot.autoconfigure.config;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午2:01:13
  * @version 1.0.0
  */
@@ -116,5 +116,5 @@ public class SingleServerConfig extends BaseConfig {
 	public void setDnsMonitoringInterval(long dnsMonitoringInterval) {
 		this.dnsMonitoringInterval = dnsMonitoringInterval;
 	}
-    
+
 }

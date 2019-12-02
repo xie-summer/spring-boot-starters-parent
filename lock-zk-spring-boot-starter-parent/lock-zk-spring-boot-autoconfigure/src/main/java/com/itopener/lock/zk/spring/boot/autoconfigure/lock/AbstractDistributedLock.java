@@ -1,7 +1,7 @@
 package com.itopener.lock.zk.spring.boot.autoconfigure.lock;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */

@@ -2,8 +2,8 @@ package com.itopener.redisson.spring.boot.autoconfigure.config;
 
 import java.util.List;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午1:56:32
  * @version 1.0.0
  */
@@ -47,5 +47,5 @@ public class ReplicatedServersConfig extends BaseMasterSlaveServersConfig {
 	public void setDatabase(int database) {
 		this.database = database;
 	}
-    
+
 }

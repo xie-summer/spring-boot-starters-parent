@@ -2,8 +2,8 @@ package com.itopener.lock.zk.spring.boot.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ZookeeperDistributedLockProperties {
 
 	private Zookeeper zk = new Zookeeper();
-	
+
 	public class Zookeeper {
 		/**
 		 * 连接Zookeeper服务器的列表. 包括IP地址和端口号. 多个地址用逗号分隔. 如: host1:2181,host2:2181
@@ -125,5 +125,5 @@ public class ZookeeperDistributedLockProperties {
 	public void setZk(Zookeeper zk) {
 		this.zk = zk;
 	}
-	
+
 }

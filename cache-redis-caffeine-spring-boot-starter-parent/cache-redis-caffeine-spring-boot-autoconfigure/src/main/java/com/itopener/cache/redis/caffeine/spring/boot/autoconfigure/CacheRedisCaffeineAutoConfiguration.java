@@ -19,8 +19,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.itopener.cache.redis.caffeine.spring.boot.autoconfigure.support.CacheMessageListener;
 import com.itopener.cache.redis.caffeine.spring.boot.autoconfigure.support.RedisCaffeineCacheManager;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月26日 下午5:23:03
  * @version 1.0.0
  */
@@ -28,16 +28,16 @@ import com.itopener.cache.redis.caffeine.spring.boot.autoconfigure.support.Redis
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(CacheRedisCaffeineProperties.class)
 public class CacheRedisCaffeineAutoConfiguration {
-	
+
 	@Autowired
 	private CacheRedisCaffeineProperties cacheRedisCaffeineProperties;
-	
+
 	@Bean
 	@ConditionalOnBean(RedisTemplate.class)
 	public RedisCaffeineCacheManager cacheManager(RedisTemplate<Object, Object> redisTemplate) {
 		return new RedisCaffeineCacheManager(cacheRedisCaffeineProperties, redisTemplate);
 	}
-	
+
 	@Bean
 	@ConditionalOnMissingBean(name = "stringKeyRedisTemplate")
 	public RedisTemplate<Object, Object> stringKeyRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
@@ -47,9 +47,9 @@ public class CacheRedisCaffeineAutoConfiguration {
 		template.setHashKeySerializer(new StringRedisSerializer());
 		return template;
 	}
-	
+
 	@Bean
-	public RedisMessageListenerContainer redisMessageListenerContainer(RedisTemplate<Object, Object> stringKeyRedisTemplate, 
+	public RedisMessageListenerContainer redisMessageListenerContainer(RedisTemplate<Object, Object> stringKeyRedisTemplate,
 			RedisCaffeineCacheManager redisCaffeineCacheManager) {
 		RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
 		redisMessageListenerContainer.setConnectionFactory(stringKeyRedisTemplate.getConnectionFactory());

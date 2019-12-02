@@ -13,7 +13,7 @@ import com.itopener.zuul.ratelimiter.spring.boot.common.entity.ZuulPathEntity;
 import com.itopener.zuul.ratelimiter.spring.boot.common.support.ILimiterManager;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月30日 上午11:11:19
  * @version 1.0.0
  */

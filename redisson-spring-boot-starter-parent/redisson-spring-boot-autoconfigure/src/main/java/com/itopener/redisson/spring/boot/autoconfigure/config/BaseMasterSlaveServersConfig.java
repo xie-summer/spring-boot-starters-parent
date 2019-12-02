@@ -4,8 +4,8 @@ import org.redisson.config.ReadMode;
 import org.redisson.config.SubscriptionMode;
 import org.redisson.connection.balancer.RoundRobinLoadBalancer;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午1:50:57
  * @version 1.0.0
  */
@@ -37,9 +37,9 @@ public class BaseMasterSlaveServersConfig extends BaseConfig {
     private int masterConnectionPoolSize = 64;
 
     private ReadMode readMode = ReadMode.SLAVE;
-    
+
     private SubscriptionMode subscriptionMode = SubscriptionMode.SLAVE;
-    
+
     /**
      * Redis 'slave' node minimum idle subscription (pub/sub) connection amount for <b>each</b> slave node
      */
@@ -131,5 +131,5 @@ public class BaseMasterSlaveServersConfig extends BaseConfig {
 	public void setDnsMonitoringInterval(long dnsMonitoringInterval) {
 		this.dnsMonitoringInterval = dnsMonitoringInterval;
 	}
-    
+
 }

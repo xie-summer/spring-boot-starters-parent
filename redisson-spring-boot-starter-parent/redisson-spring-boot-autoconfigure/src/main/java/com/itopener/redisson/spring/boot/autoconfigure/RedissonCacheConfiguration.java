@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月10日 下午3:05:52
  * @version 1.0.0
  */

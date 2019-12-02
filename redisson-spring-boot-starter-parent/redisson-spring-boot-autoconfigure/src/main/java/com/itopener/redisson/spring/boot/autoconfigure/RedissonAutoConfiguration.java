@@ -19,16 +19,16 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月3日 下午2:13:48
  * @version 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(RedissonProperties.class)
 public class RedissonAutoConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(RedissonAutoConfiguration.class);
-	
+
 	@Autowired
 	private RedissonProperties redissonProperties;
 
@@ -36,12 +36,12 @@ public class RedissonAutoConfiguration {
 		File file = ResourceUtils.getFile(redissonProperties.getConfigFile().getJson());
 		return Config.fromJSON(file);
 	}
-	
+
 	public Config configYaml() throws IOException {
 		File file = ResourceUtils.getFile(redissonProperties.getConfigFile().getYaml());
 		return Config.fromYAML(file);
 	}
-	
+
 	@Bean
 	@ConditionalOnMissingBean
 	public Config config() throws IOException {
@@ -56,12 +56,12 @@ public class RedissonAutoConfiguration {
 			return Config.fromJSON(configJson);
 		}
 	}
-	
+
 	@Bean(destroyMethod="shutdown")
 	@ConditionalOnMissingBean
 	public RedissonClient redissonClient(Config config) throws IOException {
 		logger.info("create RedissonClient, config is : {}", config.toJSON());
 		return Redisson.create(config);
 	}
-	
+
 }

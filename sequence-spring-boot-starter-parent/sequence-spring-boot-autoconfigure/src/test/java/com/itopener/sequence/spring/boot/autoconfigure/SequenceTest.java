@@ -13,17 +13,17 @@ import org.junit.Test;
 import com.itopener.sequence.spring.boot.autoconfigure.support.IWorker;
 import com.itopener.sequence.spring.boot.autoconfigure.support.Sequence;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月11日 上午9:32:50
  * @version 1.0.0
  */
 public class SequenceTest {
-	
+
 	private AtomicLong atomicLong = new AtomicLong();
 
 	private Set<Long> set = Collections.synchronizedSet(new HashSet<>());
-	
+
 	@Test
 	public void test1() {
 		Calendar calendar = Calendar.getInstance();
@@ -33,16 +33,16 @@ public class SequenceTest {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		System.out.println(calendar.getTimeInMillis());
-		
+
 		System.out.println(new BigDecimal(Math.pow(2, 41)).toString());
-		
+
 		System.out.println(new BigDecimal(calendar.getTimeInMillis() + Math.pow(2, 41)).toString());
-		
+
 		calendar.setTimeInMillis(2199023255552L);
 		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(calendar.getTime()));
 	}
-	
-	
+
+
 	@Test
 	public void test() {
 		Sequence sequence = new Sequence(new IWorker() {
@@ -65,7 +65,7 @@ public class SequenceTest {
 				}
 			}).start();
 		}
-		
+
 		try {
 			Thread.sleep(1000 * 15);
 		} catch (InterruptedException e) {

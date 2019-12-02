@@ -6,17 +6,17 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月30日 下午5:22:33
  * @version 1.0.0
  */
 public class CacheMessageListener implements MessageListener {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(CacheMessageListener.class);
 
 	private RedisTemplate<Object, Object> redisTemplate;
-	
+
 	private RedisCaffeineCacheManager redisCaffeineCacheManager;
 
 	public CacheMessageListener(RedisTemplate<Object, Object> redisTemplate,

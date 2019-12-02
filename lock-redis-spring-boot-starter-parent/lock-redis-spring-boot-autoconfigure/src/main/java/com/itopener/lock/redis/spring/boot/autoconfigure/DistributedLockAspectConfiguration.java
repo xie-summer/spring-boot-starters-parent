@@ -24,7 +24,7 @@ import com.itopener.lock.redis.spring.boot.autoconfigure.annotations.LockAction.
 import com.itopener.lock.redis.spring.boot.autoconfigure.lock.DistributedLock;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月14日 下午3:11:22
  * @version 1.0.0
  */
@@ -33,21 +33,21 @@ import com.itopener.lock.redis.spring.boot.autoconfigure.lock.DistributedLock;
 @ConditionalOnClass(DistributedLock.class)
 @AutoConfigureAfter(DistributedLockAutoConfiguration.class)
 public class DistributedLockAspectConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(DistributedLockAspectConfiguration.class);
-	
+
 	@Autowired
 	private DistributedLock distributedLock;
-	
+
 	private ExpressionParser parser = new SpelExpressionParser();
 
 	private LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
 	@Pointcut("@annotation(com.itopener.lock.redis.spring.boot.autoconfigure.annotations.LockAction)")
 	private void lockPoint(){
-		
+
 	}
-	
+
 	@Around("lockPoint()")
 	public Object around(ProceedingJoinPoint pjp) throws Throwable{
 		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
@@ -55,15 +55,15 @@ public class DistributedLockAspectConfiguration {
 		String key = lockAction.value();
 		Object[] args = pjp.getArgs();
 		key = parse(key, method, args);
-		
-		
+
+
 		int retryTimes = lockAction.action().equals(LockFailAction.CONTINUE) ? lockAction.retryTimes() : 0;
 		boolean lock = distributedLock.lock(key, lockAction.keepMills(), retryTimes, lockAction.sleepMills());
 		if(!lock) {
 			logger.debug("get lock failed : " + key);
 			return null;
 		}
-		
+
 		//得到锁,执行方法，释放锁
 		logger.debug("get lock success : " + key);
 		try {
@@ -76,10 +76,10 @@ public class DistributedLockAspectConfiguration {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @description 解析spring EL表达式
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年1月9日 上午10:41:01
 	 * @version 1.0.0
 	 * @param key 表达式

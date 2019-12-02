@@ -10,15 +10,15 @@ import com.itopener.zuul.ratelimiter.spring.boot.common.support.RateLimiterHandl
 
 /**
  * @description 刷新zuul限流配置，并返回最新的限流配置
- * @author fuwei.deng
+ * @author summer
  * @date 2018年2月5日 上午9:48:11
  * @version 1.0.0
  */
 @ConfigurationProperties(prefix = "endpoints.zuul.limiter")
 public class ZuulRateLimiterEndpoint extends AbstractEndpoint<Map<String, ?>> {
-	
+
 	private RateLimiterHandler rateLimiterHandler;
-	
+
 	public ZuulRateLimiterEndpoint(RateLimiterHandler rateLimiterHandler) {
 		super("zuul_limiter", false);
 		this.rateLimiterHandler = rateLimiterHandler;
@@ -32,7 +32,7 @@ public class ZuulRateLimiterEndpoint extends AbstractEndpoint<Map<String, ?>> {
 		limiter.put("zuulPathRateLimiter", rateLimiterHandler.getPathRateLimiterMap());
 		return limiter;
 	}
-	
+
 	public void refresh() {
 		rateLimiterHandler.generateRateLimiterMap();
 	}

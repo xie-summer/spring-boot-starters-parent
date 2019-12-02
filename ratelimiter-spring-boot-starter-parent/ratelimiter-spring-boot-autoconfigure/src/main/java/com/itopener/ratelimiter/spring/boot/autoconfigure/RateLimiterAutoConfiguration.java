@@ -20,24 +20,24 @@ public class RateLimiterAutoConfiguration {
 	public RateLimiterHandler rateLimiterHandler() {
 		return new RateLimiterHandler();
 	}
-	
+
 //	@Bean
 //	@ConditionalOnMissingBean
 //	public RateLimiterEndpoint rateLimiterEndpoint(RateLimiterHandler rateLimiterHandler) {
 //		return new RateLimiterEndpoint(rateLimiterHandler);
 //	}
-	
+
 //	@Bean
 //	@ConditionalOnMissingBean
 //	@ConditionalOnEnabledEndpoint("limiter")
 //	public RateLimiterMvcEndpoint rateLimiterMvcEndpoint(RateLimiterEndpoint rateLimiterEndpoint) {
 //		return new RateLimiterMvcEndpoint(rateLimiterEndpoint);
 //	}
-	
+
 	/**
 	 * @description 注册limiter的endpoint，RateLimiterMvcEndpoint中有RateLimiterEndpoint对象属性
 	 * 		默认也会有invoke方法，调用的也是RateLimiterEndpoint的invoke方法，所以可以只注册这一个bean
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月11日 下午1:39:04
 	 * @version 1.0.0
 	 * @param rateLimiterHandler

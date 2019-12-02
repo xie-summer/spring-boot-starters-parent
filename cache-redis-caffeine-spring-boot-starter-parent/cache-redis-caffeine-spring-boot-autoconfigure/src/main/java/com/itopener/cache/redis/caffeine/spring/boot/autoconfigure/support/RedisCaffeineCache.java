@@ -16,16 +16,16 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.itopener.cache.redis.caffeine.spring.boot.autoconfigure.CacheRedisCaffeineProperties;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月26日 下午5:24:11
  * @version 1.0.0
  */
 public class RedisCaffeineCache extends AbstractValueAdaptingCache {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(RedisCaffeineCache.class);
 
 	private String name;
-	
+
 	private RedisTemplate<Object, Object> stringKeyRedisTemplate;
 
 	private Cache<Object, Object> caffeineCache;
@@ -35,13 +35,13 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	private long defaultExpiration = 0;
 
 	private Map<String, Long> expires;
-	
+
 	private String topic = "cache:redis:caffeine:topic";
-	
+
 	protected RedisCaffeineCache(boolean allowNullValues) {
 		super(allowNullValues);
 	}
-	
+
 	public RedisCaffeineCache(String name, RedisTemplate<Object, Object> stringKeyRedisTemplate,
 			Cache<Object, Object> caffeineCache, CacheRedisCaffeineProperties cacheRedisCaffeineProperties) {
 		super(cacheRedisCaffeineProperties.isCacheNullValues());
@@ -71,7 +71,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		if(value != null) {
 			return (T) value;
 		}
-		
+
 		try {
 			synchronized (key) {
 				value = lookup(key);
@@ -88,7 +88,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
                 Class<?> c = Class.forName("org.springframework.cache.Cache$ValueRetrievalException");
                 Constructor<?> constructor = c.getConstructor(Object.class, Callable.class, Throwable.class);
                 RuntimeException exception = (RuntimeException) constructor.newInstance(key, valueLoader, e.getCause());
-                throw exception;                
+                throw exception;
             } catch (Exception e1) {
                 throw new IllegalStateException(e1);
             }
@@ -107,9 +107,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		} else {
 			stringKeyRedisTemplate.opsForValue().set(getKey(key), toStoreValue(value));
 		}
-		
+
 		push(new CacheMessage(this.name, key));
-		
+
 		caffeineCache.put(key, value);
 	}
 
@@ -127,9 +127,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 				} else {
 					stringKeyRedisTemplate.opsForValue().set(getKey(key), toStoreValue(value));
 				}
-				
+
 				push(new CacheMessage(this.name, key));
-				
+
 				caffeineCache.put(key, toStoreValue(value));
 			}
 		}
@@ -140,9 +140,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	public void evict(Object key) {
 		// 先清除redis中缓存数据，然后清除caffeine中的缓存，避免短时间内如果先清除caffeine缓存后其他请求会再从redis里加载到caffeine中
 		stringKeyRedisTemplate.delete(getKey(key));
-		
+
 		push(new CacheMessage(this.name, key));
-		
+
 		caffeineCache.invalidate(key);
 	}
 
@@ -153,9 +153,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		for(Object key : keys) {
 			stringKeyRedisTemplate.delete(key);
 		}
-		
+
 		push(new CacheMessage(this.name, null));
-		
+
 		caffeineCache.invalidateAll();
 	}
 
@@ -167,9 +167,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 			logger.debug("get cache from caffeine, the key is : {}", cacheKey);
 			return value;
 		}
-		
+
 		value = stringKeyRedisTemplate.opsForValue().get(cacheKey);
-		
+
 		if(value != null) {
 			logger.debug("get cache from redis and put in caffeine, the key is : {}", cacheKey);
 			caffeineCache.put(key, value);
@@ -180,16 +180,16 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	private Object getKey(Object key) {
 		return this.name.concat(":").concat(StringUtils.isEmpty(cachePrefix) ? key.toString() : cachePrefix.concat(":").concat(key.toString()));
 	}
-	
+
 	private long getExpire() {
 		long expire = defaultExpiration;
 		Long cacheNameExpire = expires.get(this.name);
 		return cacheNameExpire == null ? expire : cacheNameExpire.longValue();
 	}
-	
+
 	/**
 	 * @description 缓存变更时通知其他节点清理本地缓存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年1月31日 下午3:20:28
 	 * @version 1.0.0
 	 * @param message
@@ -197,10 +197,10 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	private void push(CacheMessage message) {
 		stringKeyRedisTemplate.convertAndSend(topic, message);
 	}
-	
+
 	/**
 	 * @description 清理本地缓存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年1月31日 下午3:15:39
 	 * @version 1.0.0
 	 * @param key

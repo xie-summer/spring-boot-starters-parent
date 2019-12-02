@@ -9,19 +9,19 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
 public class ZookeeperDistributedLock extends AbstractDistributedLock {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(ZookeeperDistributedLock.class);
 
 	private CuratorFramework curatorFramework;
-	
+
 	private Map<Long, InterProcessMutex> lockMap = new ConcurrentHashMap<Long, InterProcessMutex>();
-	
+
 	public ZookeeperDistributedLock(CuratorFramework curatorFramework) {
 		this.curatorFramework = curatorFramework;
 	}

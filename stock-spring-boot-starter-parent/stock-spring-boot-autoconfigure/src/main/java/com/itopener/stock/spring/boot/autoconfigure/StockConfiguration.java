@@ -9,8 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import com.itopener.stock.spring.boot.autoconfigure.support.Stock;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年2月6日 下午6:22:19
  * @version 1.0.0
  */

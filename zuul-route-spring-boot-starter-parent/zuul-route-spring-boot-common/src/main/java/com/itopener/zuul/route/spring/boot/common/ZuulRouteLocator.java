@@ -22,23 +22,23 @@ import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 public abstract class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
 
 	public final static Logger logger = LoggerFactory.getLogger(ZuulRouteLocator.class);
-	
+
 	private ZuulProperties properties;
-	
+
 	@Autowired
 	private IZuulRouteRuleMatcher zuulRouteRuleMatcher;
-	
+
 	public ZuulRouteLocator(String servletPath, ZuulProperties properties) {
 		super(servletPath, properties);
 		this.properties = properties;
 		logger.info("servletPath:{}", servletPath);
 	}
-	
+
 	@Override
 	public void refresh() {
 		doRefresh();
 	}
-	
+
 	@Override
 	protected Map<String, ZuulRoute> locateRoutes() {
 		LinkedHashMap<String, ZuulRoute> routesMap = new LinkedHashMap<String, ZuulRoute>();
@@ -64,26 +64,26 @@ public abstract class ZuulRouteLocator extends SimpleRouteLocator implements Ref
 		}
 		return values;
 	}
-	
+
 	/**
 	 * @description 加载路由配置，由子类去实现
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2017年7月3日 下午6:04:42
 	 * @version 1.0.0
 	 * @return
 	 */
 	public abstract Map<String, ZuulRoute> loadLocateRoute();
-	
+
 	/**
 	 * @description 获取路由规则，由子类去实现
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2017年7月7日 下午4:59:12
 	 * @version 1.0.0
 	 * @param route
 	 * @return
 	 */
 	public abstract List<IZuulRouteRule> getRules(Route route);
-	
+
 	@Override
 	public Route getMatchingRoute(String path) {
 		Route route = super.getMatchingRoute(path);
@@ -91,15 +91,15 @@ public abstract class ZuulRouteLocator extends SimpleRouteLocator implements Ref
 		List<IZuulRouteRule> rules = getRules(route);
 		return zuulRouteRuleMatcher.matchingRule(route, rules);
 	}
-	
+
 	@Override
 	public int getOrder() {
 		return -1;
 	}
-	
+
 	/**
 	 * @description 复制查询出来的数据的属性
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2017年7月3日 下午6:19:40
 	 * @version 1.0.0
 	 * @param locateRouteList

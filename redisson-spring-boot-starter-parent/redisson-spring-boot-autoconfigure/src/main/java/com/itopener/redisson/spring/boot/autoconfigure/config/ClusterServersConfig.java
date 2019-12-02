@@ -2,8 +2,8 @@ package com.itopener.redisson.spring.boot.autoconfigure.config;
 
 import java.util.List;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午1:53:08
  * @version 1.0.0
  */
@@ -34,5 +34,5 @@ public class ClusterServersConfig extends BaseMasterSlaveServersConfig {
 	public void setScanInterval(int scanInterval) {
 		this.scanInterval = scanInterval;
 	}
-    
+
 }

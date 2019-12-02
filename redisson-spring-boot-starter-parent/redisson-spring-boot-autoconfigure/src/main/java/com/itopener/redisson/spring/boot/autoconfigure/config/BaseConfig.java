@@ -2,8 +2,8 @@ package com.itopener.redisson.spring.boot.autoconfigure.config;
 
 import org.redisson.config.SslProvider;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午1:49:16
  * @version 1.0.0
  */
@@ -78,21 +78,21 @@ public class BaseConfig {
     private String clientName;
 
     private boolean sslEnableEndpointIdentification = true;
-    
+
     private SslProvider sslProvider = SslProvider.JDK;
-    
+
     private String sslTruststore;
-    
+
     private String sslTruststorePassword;
-    
+
     private String sslKeystore;
-    
+
     private String sslKeystorePassword;
 
     private int pingConnectionInterval;
 
     private boolean keepAlive;
-    
+
     private boolean tcpNoDelay;
 
 	public int getIdleConnectionTimeout() {
@@ -254,5 +254,5 @@ public class BaseConfig {
 	public void setTcpNoDelay(boolean tcpNoDelay) {
 		this.tcpNoDelay = tcpNoDelay;
 	}
-    
+
 }

@@ -1,7 +1,7 @@
 package com.itopener.lock.redis.spring.boot.autoconfigure.lock;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月14日 下午3:10:57
  * @version 1.0.0
  */

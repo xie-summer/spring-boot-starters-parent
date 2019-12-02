@@ -5,7 +5,7 @@ import java.util.Calendar;
 /**
  * @description 分布式序列号生成器，twitter snowflake算法的实现
  * 	1位标志位（固定为0） + 41位时间位（当前时间减去固定时间） + 10位应用节点位（创建对象时传入） + 12位序列位（同一毫秒内自增，下一毫秒重置为0） = 64位long类型数据
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月25日 上午9:40:32
  * @version 1.0.0
  */
@@ -43,7 +43,7 @@ public class Sequence {
 
 	// 同一毫秒内的序列号
 	long sequence;
-	
+
 	// 产生序列号的最后时间，用于判断是否在同一毫秒内产生
 	long lastTime;
 
@@ -58,7 +58,7 @@ public class Sequence {
 		EPOCH = calendar.getTimeInMillis();
 	}
 
-	
+
 	public Sequence(IWorker worker) {
 		this.workerId = worker.getId();
 		if (workerId > maxWorkerId || workerId < 0) {
@@ -69,7 +69,7 @@ public class Sequence {
 
 	/**
 	 * @description 生成序列号，为了保证多线程时对序列（sequence）的操作，此方法保证同步操作
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年1月25日 下午3:45:11
 	 * @version 1.0.0
 	 * @return 序列号
@@ -96,7 +96,7 @@ public class Sequence {
 
 	/**
 	 * @description 当产生序列号时间相同并且同一毫秒内的序列已用完，则等待下一毫秒
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年1月25日 下午3:47:13
 	 * @version 1.0.0
 	 * @param lastTime

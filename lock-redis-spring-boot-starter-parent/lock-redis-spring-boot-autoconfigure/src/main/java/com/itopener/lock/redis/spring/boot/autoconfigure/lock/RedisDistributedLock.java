@@ -17,18 +17,18 @@ import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisCommands;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月14日 下午3:11:14
  * @version 1.0.0
  */
 public class RedisDistributedLock extends AbstractDistributedLock {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(RedisDistributedLock.class);
-	
+
 	private RedisTemplate<Object, Object> redisTemplate;
-	
+
 	private ThreadLocal<String> lockFlag = new ThreadLocal<String>();
-	
+
 	public static final String UNLOCK_LUA;
 
     static {
@@ -62,7 +62,7 @@ public class RedisDistributedLock extends AbstractDistributedLock {
 		}
 		return result;
 	}
-	
+
 	private boolean setRedis(String key, long expire) {
 		try {
 			String result = redisTemplate.execute(new RedisCallback<String>() {
@@ -80,7 +80,7 @@ public class RedisDistributedLock extends AbstractDistributedLock {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean releaseLock(String key) {
 		// 释放锁的时候，有可能因为持锁之后方法执行时间大于锁的有效期，此时有可能已经被另外一个线程持有锁，所以不能直接删除
@@ -92,7 +92,7 @@ public class RedisDistributedLock extends AbstractDistributedLock {
 
 			// 使用lua脚本删除redis中匹配value的key，可以避免由于方法执行时间过长而redis锁自动过期失效的时候误删其他线程的锁
 			// spring自带的执行脚本方法中，集群模式直接抛出不支持执行脚本的异常，所以只能拿到原redis的connection来执行脚本
-			
+
 			Long result = redisTemplate.execute(new RedisCallback<Long>() {
 				public Long doInRedis(RedisConnection connection) throws DataAccessException {
 					Object nativeConnection = connection.getNativeConnection();
@@ -109,12 +109,12 @@ public class RedisDistributedLock extends AbstractDistributedLock {
 					return 0L;
 				}
 			});
-			
+
 			return result != null && result > 0;
 		} catch (Exception e) {
 			logger.error("release lock occured an exception", e);
 		}
 		return false;
 	}
-	
+
 }

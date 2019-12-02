@@ -15,25 +15,25 @@ import com.netflix.zuul.context.RequestContext;
 
 /**
  * @description zuul限流处理filter
- * @author fuwei.deng
+ * @author summer
  * @date 2018年2月1日 下午2:16:52
  * @version 1.0.0
  */
 public class ZuulRateLimiterFilter extends ZuulFilter {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(ZuulRateLimiterFilter.class);
-	
+
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
-	
+
 	private RouteLocator routeLocator;
-	
+
 	private ZuulProperties properties;
-	
+
 	private ZuulRateLimiterProperties zuulRateLimiterProperties;
-	
+
 	private RateLimiterHandler rateLimiterHandler;
-	
-	public ZuulRateLimiterFilter(RouteLocator routeLocator, ZuulProperties properties, 
+
+	public ZuulRateLimiterFilter(RouteLocator routeLocator, ZuulProperties properties,
 			ZuulRateLimiterProperties zuulRateLimiterProperties,
 			RateLimiterHandler rateLimiterHandler) {
 		super();

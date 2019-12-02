@@ -5,7 +5,7 @@ import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.liveobject.provider.DefaultResolverProvider;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月5日 下午1:59:50
  * @version 1.0.0
  */
@@ -165,7 +165,7 @@ public class Config {
 //	public Class<? extends EventLoopGroup> getEventLoopGroup() {
 //		return eventLoopGroup;
 //	}
-//	
+//
 //	public void setEventLoopGroup(Class<? extends EventLoopGroup> eventLoopGroup) {
 //		this.eventLoopGroup = eventLoopGroup;
 //	}

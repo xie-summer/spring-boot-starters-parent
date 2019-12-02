@@ -2,8 +2,8 @@ package com.itopener.druidstat.spring.boot.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
@@ -11,21 +11,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DruidStatProperties {
 
 	private String url = "/druid/*";
-	
+
 	private String allow;
-	
+
 	private String deny;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private String reset = "true";
-	
+
 	private boolean profileEnable = true;
-	
+
 	private String exclusions = "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*";
-	
+
 	private String filterName = "druidWebStatFilter";
 
 	public String getUrl() {

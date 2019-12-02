@@ -2,8 +2,8 @@ package com.itopener.cache.redis.caffeine.spring.boot.autoconfigure.support;
 
 import java.io.Serializable;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月29日 下午1:31:17
  * @version 1.0.0
  */
@@ -13,7 +13,7 @@ public class CacheMessage implements Serializable {
 	private static final long serialVersionUID = 5987219310442078193L;
 
 	private String cacheName;
-	
+
 	private Object key;
 
 	public CacheMessage(String cacheName, Object key) {
@@ -37,5 +37,5 @@ public class CacheMessage implements Serializable {
 	public void setKey(Object key) {
 		this.key = key;
 	}
-	
+
 }

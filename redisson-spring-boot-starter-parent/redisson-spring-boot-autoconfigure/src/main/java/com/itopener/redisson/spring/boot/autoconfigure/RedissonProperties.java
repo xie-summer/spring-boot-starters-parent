@@ -9,7 +9,7 @@ import com.itopener.redisson.spring.boot.autoconfigure.config.Config;
 import com.itopener.redisson.spring.boot.autoconfigure.config.ConfigFile;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月3日 下午2:12:47
  * @version 1.0.0
  */

@@ -23,17 +23,17 @@ import com.google.common.base.Strings;
 import com.itopener.lock.zk.spring.boot.autoconfigure.lock.DistributedLock;
 import com.itopener.lock.zk.spring.boot.autoconfigure.lock.ZookeeperDistributedLock;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(ZookeeperDistributedLockProperties.class)
 public class ZookeeperDistributedLockAutoConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(ZookeeperDistributedLockAutoConfiguration.class);
-	
+
 	@Autowired
 	private ZookeeperDistributedLockProperties zookeeperDistributedLockProperties;
 
@@ -79,7 +79,7 @@ public class ZookeeperDistributedLockAutoConfiguration {
 		}
         return curatorFramework;
 	}
-	
+
 	@Bean
 	@ConditionalOnBean(CuratorFramework.class)
 	public DistributedLock zookeeperDistributedLock(CuratorFramework curatorFramework){

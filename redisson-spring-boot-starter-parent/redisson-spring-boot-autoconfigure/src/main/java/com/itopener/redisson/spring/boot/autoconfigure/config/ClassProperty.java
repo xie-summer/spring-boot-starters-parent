@@ -2,8 +2,8 @@ package com.itopener.redisson.spring.boot.autoconfigure.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午2:56:50
  * @version 1.0.0
  */
@@ -24,5 +24,5 @@ public class ClassProperty {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	
+
 }

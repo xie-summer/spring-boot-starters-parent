@@ -4,18 +4,19 @@ import org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter;
 import org.springframework.boot.actuate.endpoint.mvc.HypermediaDisabled;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @description 使用path配置限流的endpoint，支持获取和更新限流配置
- * @author fuwei.deng
+ * @author summer
  * @date 2018年2月5日 上午9:47:46
  * @version 1.0.0
- */
+ */@CrossOrigin
 @ConfigurationProperties(prefix = "endpoints.zuul.limiter")
 public class ZuulRateLimiterMvcEndpoint extends EndpointMvcAdapter {
-	
+
 	private final ZuulRateLimiterEndpoint delegate;
 
 	public ZuulRateLimiterMvcEndpoint(ZuulRateLimiterEndpoint delegate) {
@@ -39,5 +40,5 @@ public class ZuulRateLimiterMvcEndpoint extends EndpointMvcAdapter {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 	}
-	
+
 }

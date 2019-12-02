@@ -16,18 +16,18 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.itopener.cache.redis.caffeine.spring.boot.autoconfigure.CacheRedisCaffeineProperties;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2018年1月26日 下午5:24:52
  * @version 1.0.0
  */
 public class RedisCaffeineCacheManager implements CacheManager {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(RedisCaffeineCacheManager.class);
-	
+
 	private ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<String, Cache>();
-	
+
 	private CacheRedisCaffeineProperties cacheRedisCaffeineProperties;
-	
+
 	private RedisTemplate<Object, Object> stringKeyRedisTemplate;
 
 	private boolean dynamic = true;
@@ -52,13 +52,13 @@ public class RedisCaffeineCacheManager implements CacheManager {
 		if(!dynamic && !cacheNames.contains(name)) {
 			return cache;
 		}
-		
+
 		cache = new RedisCaffeineCache(name, stringKeyRedisTemplate, caffeineCache(), cacheRedisCaffeineProperties);
 		Cache oldCache = cacheMap.putIfAbsent(name, cache);
 		logger.debug("create cache instance, the cache name is : {}", name);
 		return oldCache == null ? cache : oldCache;
 	}
-	
+
 	public com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache(){
 		Caffeine<Object, Object> cacheBuilder = Caffeine.newBuilder();
 		if(cacheRedisCaffeineProperties.getCaffeine().getExpireAfterAccess() > 0) {
@@ -83,13 +83,13 @@ public class RedisCaffeineCacheManager implements CacheManager {
 	public Collection<String> getCacheNames() {
 		return this.cacheNames;
 	}
-	
+
 	public void clearLocal(String cacheName, Object key) {
 		Cache cache = cacheMap.get(cacheName);
 		if(cache == null) {
 			return ;
 		}
-		
+
 		RedisCaffeineCache redisCaffeineCache = (RedisCaffeineCache) cache;
 		redisCaffeineCache.clearLocal(key);
 	}

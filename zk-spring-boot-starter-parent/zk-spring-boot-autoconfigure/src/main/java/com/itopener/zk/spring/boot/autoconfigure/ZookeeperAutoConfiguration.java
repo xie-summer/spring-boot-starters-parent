@@ -20,17 +20,17 @@ import org.springframework.context.annotation.Configuration;
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @Date 2017年6月9日 下午3:10:58
  * @version 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(ZookeeperProperties.class)
 public class ZookeeperAutoConfiguration {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(ZookeeperAutoConfiguration.class);
-	
+
 	@Autowired
 	private ZookeeperProperties zookeeperProperties;
 

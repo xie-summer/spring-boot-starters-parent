@@ -17,30 +17,30 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisCommands;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年2月6日 下午5:38:33
  * @version 1.0.0
  */
 public class Stock {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(Stock.class);
-	
+
 	private RedisTemplate<Object, Object> redisTemplate;
-	
+
 	private ThreadLocal<String> lockFlag = new ThreadLocal<String>();
 
 	public static final String DEDUCT_STOCK_LUA;
-	
+
 	public static final String RESTORE_STOCK_LUA;
-	
+
 	public static final String UNLOCK_LUA;
 
     public Stock(RedisTemplate<Object, Object> redisTemplate) {
 		super();
 		this.redisTemplate = redisTemplate;
 	}
-	
+
 	static {
 		/**
 		 * @desc 扣减库存Lua脚本
@@ -69,7 +69,7 @@ public class Stock {
         sb.append("return " + StockCodeEnum.NOT_INIT.getCode() + ";");
         DEDUCT_STOCK_LUA = sb.toString();
 	}
-	
+
 	static {
 		/**
 		 * @desc 恢复库存Lua脚本
@@ -105,10 +105,10 @@ public class Stock {
         sb.append("end ");
         UNLOCK_LUA = sb.toString();
     }
-	
+
 	/**
 	 * @description 扣减并返回库存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:27:36
 	 * @version 1.0.0
 	 * @param key 库存在redis中的key
@@ -129,7 +129,7 @@ public class Stock {
 					stock = deduct(key, deductStock);
 					if(stock == StockCodeEnum.NOT_INIT.getCode()) {
 						final long srcStock = stockCallback.getStock(key);
-						
+
 						String result = redisTemplate.execute(new RedisCallback<String>() {
 							@Override
 							public String doInRedis(RedisConnection connection) throws DataAccessException {
@@ -137,21 +137,21 @@ public class Stock {
 								return commands.set(key, String.valueOf(srcStock), "NX", "PX", expire);
 							}
 						});
-						
+
 						return !StringUtils.isEmpty(result) ? deduct(key, deductStock) : StockCodeEnum.INIT_FAILED.getCode();
 					}
 				}
 			} finally {
 				releaseLock(lockKey(key));
 			}
-			
+
 		}
 		return stock;
 	}
-	
+
 	/**
 	 * @description redis中扣减库存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:29:32
 	 * @version 1.0.0
 	 * @param key 库存key
@@ -181,10 +181,10 @@ public class Stock {
 		});
 		return result;
 	}
-	
+
 	/**
 	 * @description 恢复并返回库存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:30:24
 	 * @version 1.0.0
 	 * @param key 库存在redis中的key
@@ -205,7 +205,7 @@ public class Stock {
 					stock = restore(key, restoreStock);
 					if(stock == StockCodeEnum.NOT_INIT.getCode()) {
 						final long srcStock = stockCallback.getStock(key);
-						
+
 						String result = redisTemplate.execute(new RedisCallback<String>() {
 							@Override
 							public String doInRedis(RedisConnection connection) throws DataAccessException {
@@ -213,21 +213,21 @@ public class Stock {
 								return commands.set(key, String.valueOf(srcStock), "NX", "PX", expire);
 							}
 						});
-						
+
 						return !StringUtils.isEmpty(result) ? restore(key, restoreStock) : StockCodeEnum.INIT_FAILED.getCode();
 					}
 				}
 			} finally {
 				releaseLock(lockKey(key));
 			}
-			
+
 		}
 		return stock;
 	}
-	
+
 	/**
 	 * @description 恢复库存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:32:49
 	 * @version 1.0.0
 	 * @param key 库存key
@@ -247,7 +247,7 @@ public class Stock {
 				if (nativeConnection instanceof JedisCluster) {
 					return (Long) ((JedisCluster) nativeConnection).eval(RESTORE_STOCK_LUA, keys, args);
 				}
-				
+
 				// 单机模式
 				else if (nativeConnection instanceof Jedis) {
 					return (Long) ((Jedis) nativeConnection).eval(RESTORE_STOCK_LUA, keys, args);
@@ -257,10 +257,10 @@ public class Stock {
 		});
 		return result;
 	}
-	
+
 	/**
 	 * @description 加载库存
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 下午3:52:18
 	 * @version 1.0.0
 	 * @param key 库存key
@@ -284,7 +284,7 @@ public class Stock {
 						return commands.set(key, String.valueOf(srcStock), "NX", "PX", expire);
 					}
 				});
-				
+
 				return !StringUtils.isEmpty(result) ? srcStock : StockCodeEnum.INIT_FAILED.getCode();
 			}
 			return StockCodeEnum.INIT_FAILED.getCode();
@@ -292,10 +292,10 @@ public class Stock {
 			releaseLock(lockKey(key));
 		}
 	}
-	
+
 	/**
 	 * @description 库存分布式锁的key
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:34:14
 	 * @version 1.0.0
 	 * @param key 库存key
@@ -304,10 +304,10 @@ public class Stock {
 	private String lockKey(String key) {
 		return "stocklock:" + key;
 	}
-	
+
 	/**
 	 * @description 分布式锁
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:34:35
 	 * @version 1.0.0
 	 * @param key
@@ -331,10 +331,10 @@ public class Stock {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @description 释放分布式锁
-	 * @author fuwei.deng
+	 * @author summer
 	 * @date 2018年2月7日 上午9:34:54
 	 * @version 1.0.0
 	 * @param key
@@ -350,7 +350,7 @@ public class Stock {
 
 			// 使用lua脚本删除redis中匹配value的key，可以避免由于方法执行时间过长而redis锁自动过期失效的时候误删其他线程的锁
 			// spring自带的执行脚本方法中，集群模式直接抛出不支持执行脚本的异常，所以只能拿到原redis的connection来执行脚本
-			
+
 			Long result = redisTemplate.execute(new RedisCallback<Long>() {
 				public Long doInRedis(RedisConnection connection) throws DataAccessException {
 					Object nativeConnection = connection.getNativeConnection();
@@ -367,12 +367,12 @@ public class Stock {
 					return 0L;
 				}
 			});
-			
+
 			return result != null && result > 0;
 		} catch (Exception e) {
 			logger.error("release lock occured an exception", e);
 		}
 		return false;
 	}
-	
+
 }

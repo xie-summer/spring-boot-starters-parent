@@ -20,7 +20,7 @@ import com.itopener.zuul.route.spring.boot.common.ZuulRouteRuleEntity;
 import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRule;
 
 /**
- * @author fuwei.deng
+ * @author summer
  * @date 2017年6月30日 上午11:11:19
  * @version 1.0.0
  */
@@ -30,7 +30,7 @@ public class ZuulRouteZookeeperLocator extends ZuulRouteLocator {
 
 	@Autowired
 	private CuratorFrameworkClient curatorFrameworkClient;
-	
+
 	private List<ZuulRouteEntity> locateRouteList;
 
 	public ZuulRouteZookeeperLocator(String servletPath, ZuulProperties properties) {

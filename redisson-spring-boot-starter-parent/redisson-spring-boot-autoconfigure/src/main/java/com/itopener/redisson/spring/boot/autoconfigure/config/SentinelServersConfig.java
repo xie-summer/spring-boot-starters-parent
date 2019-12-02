@@ -2,8 +2,8 @@ package com.itopener.redisson.spring.boot.autoconfigure.config;
 
 import java.util.List;
 
-/**  
- * @author fuwei.deng
+/**
+ * @author summer
  * @date 2018年1月5日 下午1:57:41
  * @version 1.0.0
  */
@@ -41,5 +41,5 @@ public class SentinelServersConfig extends BaseMasterSlaveServersConfig {
 	public void setDatabase(int database) {
 		this.database = database;
 	}
-    
+
 }
